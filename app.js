@@ -2,14 +2,16 @@ Posts = new Mongo.Collection('posts');
 Comments = new Mongo.Collection('comments');
 
 if(Meteor.isServer) {
-  Meteor.publish('getPosts', function() {
-    return Posts.find();
+  Meteor.publish('getSinglePost', function(id) {
+    return [
+      Posts.find(id),
+      Comments.find({postId: id})
+    ];
   });
 }
 
-
 if(Meteor.isClient) {
-  Meteor.subscribe('getPosts');
+  Meteor.subscribe('getSinglePost', 'one');
   
   Template.posts.helpers({
     getPosts: function() {
@@ -19,7 +21,7 @@ if(Meteor.isClient) {
 
   Template.singlePost.helpers({
     getComments: function() {
-      return this.comments || [];
+      return Comments.find({postId: this._id});
     }
   });
 }
