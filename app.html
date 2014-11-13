@@ -22,6 +22,10 @@
     {{#each getComments}}
       <li>{{text}}</li>
     {{/each}}
+
+    {{#unless getComments}} 
+      No comments yet.
+    {{/unless}}
   </ul>
   <hr>
 </template>
