@@ -3,9 +3,14 @@ Comments = new Mongo.Collection('comments');
 
 if(Meteor.isServer) {
   Meteor.publish('getSinglePost', function(id) {
-    
+    return [
+    Posts.find(id),
+    Comments.find({postId: id})
+  ];
   });
 }
+
+
 
 if(Meteor.isClient) {
   Meteor.subscribe('getSinglePost', 'one');
